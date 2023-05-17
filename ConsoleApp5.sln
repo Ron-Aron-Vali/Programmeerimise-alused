@@ -1,25 +1,52 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp5", "ConsoleApp5\ConsoleApp5.csproj", "{B4279229-94BD-4B4A-A86E-FC5B4BE567C8}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4279229-94BD-4B4A-A86E-FC5B4BE567C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4279229-94BD-4B4A-A86E-FC5B4BE567C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4279229-94BD-4B4A-A86E-FC5B4BE567C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4279229-94BD-4B4A-A86E-FC5B4BE567C8}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6F163DE5-2CA4-4854-85EF-225B7F91AF66}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        // Kutsume välja meetodid failide loomiseks ja manipuleerimiseks
+        CreateFileOnDesktop();
+        CreateAndWriteToFile();
+        CreateFileWithFakeURL();
+    }
+
+    // Meetod, mis loob faili töölauale
+    static void CreateFileOnDesktop()
+    {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string filePath = Path.Combine(desktopPath, "fail1.txt");
+
+        File.Create(filePath);
+        Console.WriteLine("Fail fail1.txt on loodud töölauale.");
+    }
+
+    // Meetod, mis loob faili ja kirjutab sinna sisu
+    static void CreateAndWriteToFile()
+    {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string filePath = Path.Combine(desktopPath, "fail2.txt");
+
+        using (StreamWriter writer = File.CreateText(filePath))
+        {
+            writer.WriteLine("See on faili sisu.");
+        }
+
+        Console.WriteLine("Fail fail2.txt on loodud töölauale ja sinna on kirjutatud sisu.");
+    }
+
+    // Meetod, mis loob faili ja lisab faili URL-i, kus seda tegelikult ei ole
+    static void CreateFileWithFakeURL()
+    {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string filePath = Path.Combine(desktopPath, "fail3.txt");
+
+        string fakeURL = "https://example.com/fail3.txt";
+        using (StreamWriter writer = File.CreateText(filePath))
+        {
+            writer.WriteLine(fakeURL);
+        }
+
+        Console.WriteLine("Fail fail3.txt on loodud töölauale ja sinna on kirjutatud vale URL.");
+    }
+}
